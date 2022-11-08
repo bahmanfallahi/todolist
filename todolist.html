@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="todolist.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>my to dolist project</title>
+</head>
+<body>
+    <!-- ok header -->
+    <header>
+        <h1>to do list</h1>
+    </header>
+    <!-- ok next - full container -->
+    <section class="container">
+        <div class="form-container">
+            <!-- create our form -->
+            <form>
+                <input type="text" class="todo-input">
+                <button class="todo-btn">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                </button>
+            </form>
+            <!-- creat select option -->
+            <div class="select">
+                <select name="todos" class="filter-todos">
+                    <option class="all">all</option>
+                    <option class="completed">completed</option>
+                    <option class="uncompleted">uncompleted</option>
+                </select>
+            </div>
+        </div>
+    
+        <div class="todo-container">
+            <div class="to-do">
+                <li>task one</li>
+                <span><i class="fa-sharp fa-solid fa-circle-check"></i></span>
+                <span><i class="fa-sharp fa-solid fa-xmark"></i></span>
+            </div>
+        </div>
+    </section>
+    
+</body>
+</html>
