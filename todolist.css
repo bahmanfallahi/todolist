@@ -73,21 +73,26 @@ form button:hover {
     color: var(--secondary);
 }
 
-.to-do {
+.todo {
     display: flex;
     background-color: var(--borderlineColor);
     padding: 0.7rem;
     font-size: 1.2rem;
 }
-.to-do li {
+.todo li {
     flex: 1;
 }
 
-.to-do span {
+.todo span {
     padding-left: 1rem;
     cursor: pointer;
 }
 
 .fa-circle-check {
     color: var(--secondaryColor);
+}
+
+.completed {
+    text-decoration: line-through;
+    opacity: 0.5;
 }
