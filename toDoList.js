@@ -36,35 +36,35 @@ function checkRemove(e) {
     const classList = [...e.target.classList];
     const item = e.target;
     console.log(item.parentElement.parentElement);
-    if (classList[1] = "fa-circle-check") {
+    if (classList[2] === "fa-circle-check") {
         const todo = item.parentElement.parentElement;
         todo.classList.toggle("completed");
-    } else if (classList[1] = "fa-xmark") {
+    } else if (classList[2] === "fa-xmark") {
         const todo = item.parentElement.parentElement;
         // we add removeLocalTodo by the last function
-        removeLocalTodo(todo);
+        // removeLocalTodo(todo);
         // 
         todo.remove();
     }
 }
 
 function filterTodos(e) {
-    console.log(todoList.childNodes);
+    // console.log(todoList.childNodes);
     const todos = [...todoList.childNodes];
-    todos.forEach((todo) => {
+    todos.forEach(todo => {
             switch (e.target.value) {
                 case "all":
                     todo.style.display = "flex";
                     break;
                 case "completed":
                     if (todo.classList.contains("completed")) {
-                        todo.style.display = flex;
+                        todo.style.display = "flex";
                     } else {
                         todo.style.display = "none";
                     }
                     break;
                 case "uncompleted":
-                    if (!todo.classList.contains("completed")) {
+                    if (todo.classList.contains("uncompleted")) {
                         todo.style.display = "flex";
                     } else {
                         todo.style.display = "none";
@@ -73,7 +73,7 @@ function filterTodos(e) {
             }
         });
 }
-
+// --------
 function saveLocalTodos(todo) {
     // localStorage.setItem("lastname", "Smith");
     // localStorage.getItem("lastname");
