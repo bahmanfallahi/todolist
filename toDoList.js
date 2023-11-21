@@ -1,116 +1,99 @@
-// selectors
 const todoInput = document.querySelector(".todo-input");
 const todoBtn = document.querySelector(".todo-btn");
 const todoList = document.querySelector(".todolist");
 const filterOption = document.querySelector(".filter-todos");
+const clearBtn = document.querySelector(".clear-btn");
 
-
-// event listeners
 todoBtn.addEventListener("click", addTodo);
 todoList.addEventListener("click", checkRemove);
-filterOption.addEventListener("click", filterTodos);
-document.addEventListener("DOMContentLoaded", getLocalTodos)
+filterOption.addEventListener("change", filterTodos);
+document.addEventListener("DOMContentLoaded", getLocalTodos);
+clearBtn.addEventListener("click", clearAll);
 
-// functions
 function addTodo(e) {
-    e.preventDefault();
-    // console.log(e);
-    // get to do value
-    // create new todo
-    // add to dom
-    // reset input
-    const todoDiv = document.createElement("div");
-    todoDiv.classList.add("todo");
-    const newTodo = `
-    <li>${todoInput.value}</li>
-    <span><i class="fa-sharp fa-solid fa-circle-check"></i></span>
-    <span><i class="fa-sharp fa-solid fa-xmark"></i></span>`;
-    todoDiv.innerHTML = newTodo;
-    // append to todolist
-    todoList.appendChild(todoDiv);
-    saveLocalTodos(todoInput.value)
+  e.preventDefault();
+  const todoText = todoInput.value.trim();
+  if (todoText !== "") {
+    const todoDiv = createTodoElement(todoText);
+    appendTodoElement(todoDiv);
+    saveLocalTodos(todoText);
     todoInput.value = "";
+  }
+}
+
+function createTodoElement(todoText) {
+  const todoDiv = document.createElement("div");
+  todoDiv.classList.add("todo");
+  const newTodo = `
+    <li>${todoText}</li>
+    <span><i class="fas fa-check-circle"></i></span>
+    <span><i class="fas fa-times-circle"></i></span>`;
+  todoDiv.innerHTML = newTodo;
+  return todoDiv;
+}
+
+function appendTodoElement(todoDiv) {
+  todoList.appendChild(todoDiv);
 }
 
 function checkRemove(e) {
-    const classList = [...e.target.classList];
-    const item = e.target;
-    console.log(item.parentElement.parentElement);
-    if (classList[2] === "fa-circle-check") {
-        const todo = item.parentElement.parentElement;
-        todo.classList.toggle("completed");
-    } else if (classList[2] === "fa-xmark") {
-        const todo = item.parentElement.parentElement;
-        // we add removeLocalTodo by the last function
-        // removeLocalTodo(todo);
-        // 
-        todo.remove();
-    }
+  const target = e.target;
+  const todo = target.closest(".todo");
+
+  if (target.classList.contains("fa-check-circle")) {
+    todo.classList.toggle("completed");
+  } else if (target.classList.contains("fa-times-circle")) {
+    todo.remove();
+    removeLocalTodo(todo);
+  }
 }
 
-function filterTodos(e) {
-    // console.log(todoList.childNodes);
-    const todos = [...todoList.childNodes];
-    todos.forEach(todo => {
-            switch (e.target.value) {
-                case "all":
-                    todo.style.display = "flex";
-                    break;
-                case "completed":
-                    if (todo.classList.contains("completed")) {
-                        todo.style.display = "flex";
-                    } else {
-                        todo.style.display = "none";
-                    }
-                    break;
-                case "uncompleted":
-                    if (todo.classList.contains("uncompleted")) {
-                        todo.style.display = "flex";
-                    } else {
-                        todo.style.display = "none";
-                    }
-                    break;
-            }
-        });
-}
-// --------
-function saveLocalTodos(todo) {
-    // localStorage.setItem("lastname", "Smith");
-    // localStorage.getItem("lastname");
-    let savedTodos = localStorage.getItem("todos")
-    ? JSON.parse(localStorage.getItem("todos"))
-    : [];
-    savedTodos.push(todo);
-    localStorage.setItem
-    localStorage.setItem("todos", JSON.stringify(savedTodos));
-    // at this time we shoud added --saveLocalTodos(todoInput.value)-- to firs function of or code on the top!
-}
+function filterTodos() {
+    const todos = Array.from(todoList.children);
 
-function getLocalTodos(todo) { 
-    let savedTodos = localStorage.getItem("todos")
-    ? JSON.parse(localStorage.getItem("todos"))
-    : [];
-
-    savedTodos.forEach((todo) => {
-        const todoDiv = document.createElement("div");
-        todoDiv.classList.add("todo");
-    const newTodo = `
-    <li>${todo}</li>
-    <span><i class="fa-sharp fa-solid fa-circle-check"></i></span>
-    <span><i class="fa-sharp fa-solid fa-xmark"></i></span>`;
-    todoDiv.innerHTML = newTodo;
-    todoList.appendChild(todoDiv);
+    todos.forEach((todo) => {
+        switch (filterOption.value) {
+            case "all":
+                todo.style.display = "flex";
+                break;
+            case "completed":
+                todo.style.display = todo.classList.contains("completed") ? "flex" : "none";
+                break;
+            case "uncompleted":
+                todo.style.display = !todo.classList.contains("completed") ? "flex" : "none";
+                break;
+        }
     });
- }
-//  next step: add event! DOMcontentLoaded
+}
 
-function removeLocalTodo (todo) {
-    // add removeLocalTodo to removeCheck function!
-    let savedTodos = localStorage.getItem("todos")
-    ? JSON.parse(localStorage.getItem("todos"))
-    : [];
-    const filterdTodos = savedTodos.filter(
-      (t) => t !== todo.children[0].innerText
-    );
-    localStorage.setItem("todos", JSON.stringify(filterdTodos));
+function saveLocalTodos(todo) {
+  let savedTodos = JSON.parse(localStorage.getItem("todos")) || [];
+  savedTodos.push(todo);
+  localStorage.setItem("todos", JSON.stringify(savedTodos));
+}
+
+function getLocalTodos() {
+  let savedTodos = JSON.parse(localStorage.getItem("todos")) || [];
+
+  savedTodos.forEach((todo) => {
+    const todoDiv = createTodoElement(todo);
+    appendTodoElement(todoDiv);
+  });
+}
+
+function removeLocalTodo(todo) {
+  let savedTodos = JSON.parse(localStorage.getItem("todos")) || [];
+  const filteredTodos = savedTodos.filter((t) => t !== todo.children[0].innerText);
+  localStorage.setItem("todos", JSON.stringify(filteredTodos));
+}
+
+function clearAll() {
+    while (todoList.firstChild) {
+        todoList.removeChild(todoList.firstChild);
+    }
+    localStorage.removeItem("todos");
+}
+
+function removeLocalTodo() {
+    localStorage.removeItem("todos");
 }

@@ -40,8 +40,24 @@ header {
 .form-container {
     display: flex;
 }
+
 .todo-container {
     width: 25rem;
+}
+.clear-btn {
+    background: var(--background-secondaryColor);
+    color: var(--primaryColor);
+    font-size: 1rem;
+    padding: 0.5rem;
+    margin-left: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.clear-btn:hover {
+    background: var(--primaryColor);
+    color: var(--whiteColor);
 }
 form {
     width: 25rem;
